@@ -1,0 +1,35 @@
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.error-code {
+    font-size: 120px;
+    font-weight: bold;
+    color: #ff4c4c;
+    margin: 0;
+}
+
+.error-text {
+    font-size: 50px;
+    color: #ff7f50;
+    margin: 10px 0;
+}
+
+.not-found-text {
+    font-size: 24px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.sad-face {
+    font-size: 50px;
+    color: #777;
+}

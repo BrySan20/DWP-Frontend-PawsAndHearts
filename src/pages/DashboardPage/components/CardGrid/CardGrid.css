@@ -1,0 +1,96 @@
+.card-grid-container {
+  padding: 40px 10px;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+}
+
+.grid-item {
+  max-width: calc(20% - 10px) !important;
+  flex-basis: 20% !important;
+  margin-bottom: 16px;
+}
+
+.pet-card {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #FFF2CC;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.pet-image {
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 0;
+}
+
+.pet-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.pet-age {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+.pet-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 12px 0;
+}
+
+.pet-card button {
+  background-color: #FFB74D;
+  color: black;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: auto;
+}
+
+.pet-card button:hover {
+  background-color: #ff9800;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+  .grid-item {
+    max-width: calc(25% - 32px) !important; /* 4 cards por fila en pantallas grandes */
+    flex-basis: 25% !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .grid-item {
+    max-width: calc(33.333% - 32px) !important; /* 3 cards por fila en pantallas medianas */
+    flex-basis: 33.333% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-item {
+    max-width: calc(50% - 24px) !important; /* 2 cards por fila en pantallas pequeñas */
+    flex-basis: 50% !important;
+  }
+  
+  .card-grid-container {
+    padding: 20px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-item {
+    max-width: 100% !important; /* 1 card por fila en pantallas muy pequeñas */
+    flex-basis: 100% !important;
+  }
+}
