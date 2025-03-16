@@ -1,0 +1,22 @@
+.details-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .details-content {
+    margin-top: 130px;
+    margin-left: 200px;
+    padding: 20px;
+    flex-grow: 1;
+    box-sizing: border-box;
+    background-color: white;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .details-content {
+      margin-left: 0;
+      width: 100%;
+    }
+  }

@@ -1,0 +1,22 @@
+.contact-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .contact-content {
+    margin-left: 200px;
+    margin-top: 130px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: white;
+    background-color: white;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .contact-content {
+      margin-left: 0;
+      margin-top: 120px;
+    }
+  }

@@ -1,25 +1,19 @@
 .card-grid-container {
-  padding: 40px 10px;
+  padding: 40px 16px;
   background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-}
-
-.grid-item {
-  max-width: calc(20% - 10px) !important;
-  flex-basis: 20% !important;
-  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pet-card {
-  max-width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: #FFF2CC;
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
 .pet-card:hover {
@@ -28,7 +22,7 @@
 }
 
 .pet-image {
-  object-fit: cover;
+  width: 100%;
   border-radius: 10px 10px 0 0;
   margin-bottom: 0;
 }
@@ -36,6 +30,10 @@
 .pet-name {
   font-weight: bold;
   margin-bottom: 4px;
+  font-size: 1.1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pet-age {
@@ -47,50 +45,49 @@
   font-size: 0.9rem;
   color: #555;
   margin: 12px 0;
+  /* Limitar a 2 líneas con elipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
 }
 
 .pet-card button {
   background-color: #FFB74D;
   color: black;
   font-weight: bold;
-  padding: 8px;
   border-radius: 5px;
-  margin-top: auto;
 }
 
 .pet-card button:hover {
   background-color: #ff9800;
 }
 
-/* Estilos responsivos */
-@media (max-width: 1200px) {
-  .grid-item {
-    max-width: calc(25% - 32px) !important; /* 4 cards por fila en pantallas grandes */
-    flex-basis: 25% !important;
-  }
-}
-
-@media (max-width: 960px) {
-  .grid-item {
-    max-width: calc(33.333% - 32px) !important; /* 3 cards por fila en pantallas medianas */
-    flex-basis: 33.333% !important;
-  }
-}
-
+/* Estilos responsivos para pantallas pequeñas */
 @media (max-width: 600px) {
-  .grid-item {
-    max-width: calc(50% - 24px) !important; /* 2 cards por fila en pantallas pequeñas */
-    flex-basis: 50% !important;
-  }
-  
   .card-grid-container {
     padding: 20px 10px;
   }
+  
+  .pet-name {
+    font-size: 1rem;
+  }
+  
+  .pet-description {
+    font-size: 0.8rem;
+    margin: 8px 0;
+  }
 }
 
-@media (max-width: 480px) {
-  .grid-item {
-    max-width: 100% !important; /* 1 card por fila en pantallas muy pequeñas */
-    flex-basis: 100% !important;
+/* Estilos para ajustar el espacio en pantallas muy pequeñas */
+@media (max-width: 350px) {
+  .card-grid-container {
+    padding: 16px 8px;
+  }
+  
+  .pet-card button {
+    padding: 4px 8px;
+    font-size: 0.75rem;
   }
 }

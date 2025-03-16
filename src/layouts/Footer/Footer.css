@@ -1,32 +1,39 @@
 .footer-container {
   background-color: #A8E5FF;
   color: black;
-  padding: 30px 0;
+  padding: 30px 0 20px;
   margin-top: 40px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .footer-column {
   display: flex;
   flex-direction: column;
-  padding: 0 15px;
+}
+
+.logo-column {
+  display: flex;
+  justify-content: center;
 }
 
 .footer-logo-container {
   display: flex;
   align-items: center;
-  height: 100%;
   justify-content: center;
 }
 
 .footer-logo {
-  width: 200px;
-  height: 200px;
+  width: auto;
+  height: auto;
+  max-width: 160px;
+  max-height: 160px;
+  object-fit: contain;
 }
 
 .footer-section {
@@ -37,6 +44,8 @@
 
 .footer-icon-container {
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .footer-icon {
@@ -68,32 +77,105 @@
   font-size: 0.9rem !important;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.mobile-copyright {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding-top: 15px;
+  width: 100%;
+}
+
 /* Estilos responsivos */
+@media (max-width: 1200px) {
+  .footer-logo {
+    max-width: 140px;
+    max-height: 140px;
+  }
+}
+
 @media (max-width: 960px) {
   .footer-column {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
+  
+  .footer-logo {
+    max-width: 120px;
+    max-height: 120px;
+  }
+}
 
+@media (max-width: 768px) {
   .footer-grid {
-    justify-content: flex-start;
+    justify-content: space-around;
+  }
+  
+  .footer-column {
+    align-items: flex-start;
+  }
+  
+  .logo-column {
+    align-items: center;
+  }
+  
+  .footer-icon {
+    font-size: 22px;
   }
 }
 
 @media (max-width: 600px) {
   .footer-container {
-    padding: 30px 0;
+    padding: 20px 0 10px;
   }
-
+  
   .footer-logo {
     max-width: 100px;
+    max-height: 100px;
   }
-
+  
   .footer-title {
     font-size: 1rem !important;
+    margin-bottom: 8px !important;
   }
-
+  
   .footer-text,
   .footer-copyright {
     font-size: 0.8rem !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .footer-icon {
+    font-size: 20px;
+  }
+  
+  .footer-icon-container {
+    margin-bottom: 6px;
+  }
+  
+  /* Centrar contenido en móviles */
+  .footer-column {
+    text-align: center;
+    align-items: center;
+  }
+  
+  .footer-section {
+    align-items: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer-container {
+    padding: 15px 0 5px;
+  }
+  
+  .footer-logo {
+    max-width: 80px;
+    max-height: 80px;
+  }
+  
+  .footer-column {
+    padding: 0 10px;
   }
 }

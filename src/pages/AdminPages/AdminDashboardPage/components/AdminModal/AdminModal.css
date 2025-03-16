@@ -1,0 +1,38 @@
+.modal-container {
+    width: 60%;
+    background: white;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .modal-title {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .modal-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  
+  .modal-column {
+    flex: 1;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  

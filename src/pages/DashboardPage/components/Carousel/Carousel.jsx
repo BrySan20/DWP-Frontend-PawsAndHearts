@@ -1,27 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel as ResponsiveCarousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Carousel.css";
 
 const Carousel = () => {
-  // Array con los datos de las imágenes del carrusel
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Effect para detectar cambios en el tamaño de la ventana
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const carouselImages = [
     {
-      src: "/src/assets/images/logo.png",
+      src: "/src/assets/images/dog1.jpg",
       alt: "Pet adoption image 1",
     },
     {
-      src: "/src/assets/images/logo.png",
+      src: "/src/assets/images/cat1.jpg",
       alt: "Pet adoption image 2",
     },
     {
-      src: "/src/assets/images/logo.png",
+      src: "/src/assets/images/bird1.jpg",
       alt: "Pet adoption image 3",
+    },
+    {
+      src: "/src/assets/images/turtle1.jpg",
+      alt: "Pet adoption image 4",
     },
   ];
 
   return (
-    <div className="carousel-container">
+    <div className={`carousel-container ${isMobile ? 'mobile-layout' : ''}`}>
+      {/* Título para móviles (aparece arriba en versión móvil) */}
+      {isMobile && (
+        <div className="mobile-title-section">
+          <h2 className="carousel-title">Who are we?</h2>
+        </div>
+      )}
+
       {/* Columna izquierda: Carrusel de imágenes */}
       <div className="carousel-images-column">
         <ResponsiveCarousel
@@ -31,9 +55,11 @@ const Carousel = () => {
           showStatus={false}
           autoPlay={true}
           interval={5000}
+          swipeable={true}
+          emulateTouch={true}
         >
           {carouselImages.map((image, index) => (
-            <div key={index}>
+            <div key={index} className="carousel-slide">
               <img src={image.src} alt={image.alt} />
             </div>
           ))}
@@ -42,7 +68,7 @@ const Carousel = () => {
 
       {/* Columna derecha: Descripción con título */}
       <div className="carousel-description-column">
-        <h2 className="carousel-title">Who are we?</h2>
+        {!isMobile && <h2 className="carousel-title">Who are we?</h2>}
         <div className="carousel-description">
           <p>
             Welcome to Paws & Hearts, your trusted platform for pet adoption and care. 

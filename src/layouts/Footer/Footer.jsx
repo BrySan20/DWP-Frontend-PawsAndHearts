@@ -1,18 +1,22 @@
 import React from "react";
-import { Box, Grid, Typography, Container } from "@mui/material";
+import { Box, Grid, Typography, Container, useMediaQuery, useTheme } from "@mui/material";
 import { AccessTime, LocationOn, Phone, Info } from "@mui/icons-material";
 import "./Footer.css";
 
 const Footer = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  
   // Podrías reemplazar esto con la ruta a tu logo real
   const logoPath = "/src/assets/images/logo.png";
 
   return (
     <Box className="footer-container">
       <Container maxWidth="xl">
-        <Grid container spacing={3} className="footer-grid">
+        <Grid container spacing={{ xs: 2, sm: 3, md: 3 }} className="footer-grid">
           {/* Columna 1: Logo */}
-          <Grid item xs={12} sm={6} md={2.4} className="footer-column">
+          <Grid item xs={12} sm={6} md={2.4} className="footer-column logo-column">
             <Box className="footer-logo-container">
               <img src={logoPath} alt="Logo de la empresa" className="footer-logo" />
             </Box>
@@ -76,7 +80,7 @@ const Footer = () => {
                 WhatsApp: +1 555 987-6543
               </Typography>
               <Typography variant="body2" className="footer-text">
-                Email: info@tuempresa.com
+                Email: info@p&h.com
               </Typography>
             </Box>
           </Grid>
@@ -94,7 +98,7 @@ const Footer = () => {
                 Cuidamos con amor a tus mascotas desde 2010.
               </Typography>
               <Typography variant="body2" className="footer-copyright">
-                © {new Date().getFullYear()} Tu Empresa
+                © {new Date().getFullYear()} Paws & Hearts
               </Typography>
               <Typography variant="body2" className="footer-text">
                 Todos los derechos reservados
@@ -102,6 +106,15 @@ const Footer = () => {
             </Box>
           </Grid>
         </Grid>
+        
+        {/* Línea de copyright para móviles - aparece solo en vista móvil */}
+        {isMobile && (
+          <Box className="mobile-copyright">
+            <Typography variant="body2" className="footer-copyright text-center">
+              © {new Date().getFullYear()} Paws & Hearts - Todos los derechos reservados
+            </Typography>
+          </Box>
+        )}
       </Container>
     </Box>
   );

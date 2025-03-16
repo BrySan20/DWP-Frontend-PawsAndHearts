@@ -1,59 +1,132 @@
 .register-container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-  }
-  
-  .register-image {
-    width: 40%;
-    background: url("/src/assets/images/cat-lr.jpg") no-repeat center;
-    background-size: cover;
-  }
-  
-  .register-content {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #FFF2CC; 
-    padding: 20px;
-  }
-  
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.register-image {
+  width: 40%;
+  background: url("/src/assets/images/cat-lr.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.register-content {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFF2CC;
+  padding: 20px;
+}
+
+.register-logo {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  min-height: 450px;
+  padding: 20px;
+  background-color: #7bf0bb;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-button {
+  width: 100%;
+  background-color: #FFB74D;
+  color: white;
+  margin-top: 20px;
+}
+
+.signup-text {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.signup-link {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Media query para tablets */
+@media screen and (max-width: 1024px) {
   .register-logo {
-    width: 200px;
+    width: 150px;
   }
   
   .register-card {
+    max-width: 350px;
+  }
+}
+
+/* Media query para tablets pequeñas y móviles grandes */
+@media screen and (max-width: 768px) {
+  .register-container {
+    flex-direction: column;
+  }
+  
+  .register-image {
     width: 100%;
-    max-width: 400px;
-    height: 500px;
-    padding: 20px;
-    background-color: #7bf0bb; 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    height: 25vh;
   }
   
-  .register-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .register-button {
+  .register-content {
     width: 100%;
-    background-color: #FFB74D; 
-    color: white;
-    margin-top: 20px;
+    height: 75vh;
   }
   
-  .signup-text {
-    text-align: center;
-    margin-top: 10px;
+  .register-logo {
+    width: 120px;
+    margin-bottom: 15px;
   }
   
-  .signup-link {
-    color: #1976d2;
-    text-decoration: none;
-    font-weight: bold;
+  .register-card {
+    max-width: 450px;
+  }
+}
+
+/* Media query para móviles */
+@media screen and (max-width: 480px) {
+  .register-image {
+    height: 20vh;
   }
   
+  .register-content {
+    height: 80vh;
+    padding: 15px;
+  }
+  
+  .register-logo {
+    width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .register-card {
+    max-width: 100%;
+    min-height: 450px;
+  }
+}
+
+/* Media query para móviles pequeños */
+@media screen and (max-width: 320px) {
+  .register-image {
+    height: 15vh;
+  }
+  
+  .register-content {
+    height: 85vh;
+    padding: 10px;
+  }
+}
