@@ -1,9 +1,26 @@
-import React from "react";
-import { Typography, Grid, Paper, Box, List, ListItem, ListItemIcon, ListItemText, Divider, Accordion, AccordionSummary, AccordionDetails, Container } from "@mui/material";
-import { Email, Phone, AccessTime, Place, ExpandMore, QuestionAnswer } from "@mui/icons-material";
+import React, { useState } from "react";
+import {
+  Typography, Grid, Paper, Box, List, ListItem, ListItemIcon, ListItemText, Divider,
+  Accordion, AccordionSummary, AccordionDetails, Container, Button
+} from "@mui/material";
+import {
+  Email, Phone, AccessTime, Place, ExpandMore, QuestionAnswer, Send
+} from "@mui/icons-material";
+import SendEmailModal from "../SendEmailModal/SendEmailModal";
 import "./ContactContent.css";
 
 const ContactContent = () => {
+  const [openEmailModal, setOpenEmailModal] = useState(false);
+  const email = localStorage.getItem("email");
+
+  const handleOpenEmailModal = () => {
+    setOpenEmailModal(true);
+  };
+
+  const handleCloseEmailModal = () => {
+    setOpenEmailModal(false);
+  };
+
   return (
     <Container className="contact-container">
       <Typography variant="h2" className="main-title" gutterBottom>
@@ -21,7 +38,7 @@ const ContactContent = () => {
 
               <Box className="contact-item">
                 <Email color="primary" className="contact-icon" />
-                <Typography variant="h6">email@example.com</Typography>
+                <Typography variant="h6">pawsandheartsdwp@gmail.com</Typography>
               </Box>
 
               <Box className="contact-item">
@@ -36,6 +53,16 @@ const ContactContent = () => {
                   Monday - Friday, 9:00 AM - 6:00 PM
                 </Typography>
               </Box>
+
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<Send />}
+                onClick={handleOpenEmailModal}
+                sx={{ mt: 2, mb: 3 }}
+              >
+                Do you have any question? Send us an email
+              </Button>
             </Box>
 
             <Divider className="divider" />
@@ -107,23 +134,27 @@ const ContactContent = () => {
           <Paper elevation={3} className="contact-paper">
             <Box className="office-section">
               <Typography variant="h4" className="section-title" sx={{ mb: 3 }}>
-                Visit our offices in person
+                Visit our office in person
               </Typography>
 
               <Box className="address-item">
                 <Place color="primary" className="contact-icon" />
                 <Typography variant="body1">
-                  123 Pet Adoption Avenue<br />
-                  Guanajuato, Mexico
+                  UTEQ - Universidad Tecnológica de Querétaro<br />
+                  Querétaro, Mexico
                 </Typography>
               </Box>
 
               <Box className="map-container">
-                <img
-                  src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg"
-                  alt="Office Location Map"
-                  className="map-image"
-                />
+                <iframe
+                  src="https://www.google.com/maps?q=20.653976,-100.405544&z=15&output=embed"
+                  width="600"
+                  height="450"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  title="UTEQ Location"
+                ></iframe>
               </Box>
 
               <Box className="directions-section">
@@ -149,6 +180,13 @@ const ContactContent = () => {
           </Paper>
         </Grid>
       </Grid>
+
+      {/* Modal de envío de correo */}
+      <SendEmailModal
+        open={openEmailModal}
+        onClose={handleCloseEmailModal}
+        defaultRecipient="bryangames1680@gmail.com"
+      />
     </Container>
   );
 };

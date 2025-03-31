@@ -28,6 +28,11 @@
     background-color: #8cbdf5;
 }
 
+.sidebar-button.selected {
+    background-color: rgba(252, 185, 83, 0.2);
+    font-weight: bold;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .sidebar-container {

@@ -13,6 +13,24 @@
   background-color: white;
 }
 
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #129600;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
+  background-color: #00cc0a;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .dashboard-content {

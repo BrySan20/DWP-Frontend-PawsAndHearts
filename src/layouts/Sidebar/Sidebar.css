@@ -28,6 +28,32 @@
     background-color: #8cbdf5;
 }
 
+.sidebar-button.selected {
+    background-color: rgba(252, 185, 83, 0.2);
+    font-weight: bold;
+}
+
+/* Contenedor para el texto de bienvenida */
+.user-welcome-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #A8E5FF; /* Color de fondo suave */
+    border-radius: 8px;
+  }
+  
+  /* Estilo del texto de bienvenida */
+  .user-welcome-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #2a008c; /* Color de texto oscuro */
+    text-align: center;
+    margin: 0;
+  }
+  
+
 /* Responsivo */
 @media (max-width: 768px) {
     .sidebar-container {

@@ -1,42 +1,80 @@
-import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, Box, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Typography } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { getScheduledAdoptions, processAdoptionRequest } from "../../../../../services/appointmentService";
+import { PulseLoader } from "react-spinners";
 import "./ScheduledTable.css";
 
-const sampleData = [
-  {
-    id: 1,
-    name: "Max",
-    type: "Dog",
-    specie: "Golden Retriever",
-    age: "3 years",
-    size: "Medium",
-    gender: "Male",
-    description: "Friendly and playful",
-    adopter: "John Doe",
-    date: "2025-04-15",
-  },
-  {
-    id: 2,
-    name: "Luna",
-    type: "Cat",
-    specie: "Siamese",
-    age: "2 years",
-    size: "Small",
-    gender: "Female",
-    description: "Loves cuddles",
-    adopter: "Jane Smith",
-    date: "2025-04-20",
-  },
-];
-
 const ScheduledTable = () => {
+  const [scheduledAdoptions, setScheduledAdoptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchScheduledAdoptions();
+  }, []);
+
+  const fetchScheduledAdoptions = async () => {
+    try {
+      const data = await getScheduledAdoptions();
+      setScheduledAdoptions(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching scheduled adoptions:", error);
+      setLoading(false);
+      Swal.fire("Error", "Could not fetch scheduled adoptions", "error");
+    }
+  };
+
+  const handleAdoptionRequest = async (adoptionId, status) => {
+    const confirmationMessage = status === 'approved' 
+      ? "Are you sure you want to approve this adoption?" 
+      : "Are you sure you want to reject this adoption?";
+
+    const result = await Swal.fire({
+      title: "Confirm Adoption Action",
+      text: confirmationMessage,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: status === 'approved' ? "#3085d6" : "#d33",
+      cancelButtonColor: "#aaa",
+      confirmButtonText: status === 'approved' ? "Approve" : "Reject"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await processAdoptionRequest(adoptionId, status);
+        
+        // Remove the processed adoption from the list
+        setScheduledAdoptions(prev => 
+          prev.filter(adoption => adoption.id !== adoptionId)
+        );
+
+        Swal.fire(
+          status === 'approved' ? "Approved!" : "Rejected!", 
+          `The adoption has been ${status}.`, 
+          "success"
+        );
+      } catch (error) {
+        console.error("Error processing adoption:", error);
+        Swal.fire("Error", "Could not process the adoption", "error");
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", p: 3 }}>
+        <PulseLoader size={20} color="#000000" />
+      </Box>
+    );
+  }
+
   return (
     <div className="scheduled-table-container">
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2 }}>
         <Typography variant="h5" sx={{ color: 'black'}}>Scheduled Adoptions</Typography>
       </Box>
-
       <TableContainer component={Paper}>
         <Table>
           <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
@@ -54,22 +92,28 @@ const ScheduledTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sampleData.map((pet) => (
-              <TableRow key={pet.id}>
-                <TableCell>{pet.name}</TableCell>
-                <TableCell>{pet.type}</TableCell>
-                <TableCell>{pet.specie}</TableCell>
-                <TableCell>{pet.age}</TableCell>
-                <TableCell>{pet.size}</TableCell>
-                <TableCell>{pet.gender}</TableCell>
-                <TableCell>{pet.description}</TableCell>
-                <TableCell>{pet.adopter}</TableCell>
-                <TableCell>{pet.date}</TableCell>
+            {scheduledAdoptions.map((adoption) => (
+              <TableRow key={adoption.id}>
+                <TableCell>{adoption.name}</TableCell>
+                <TableCell>{adoption.type}</TableCell>
+                <TableCell>{adoption.specie}</TableCell>
+                <TableCell>{adoption.age}</TableCell>
+                <TableCell>{adoption.size}</TableCell>
+                <TableCell>{adoption.gender}</TableCell>
+                <TableCell>{adoption.description}</TableCell>
+                <TableCell>{adoption.adopter}</TableCell>
+                <TableCell>{adoption.date}</TableCell>
                 <TableCell>
-                  <IconButton color="success">
+                  <IconButton 
+                    color="success" 
+                    onClick={() => handleAdoptionRequest(adoption.id, 'approved')}
+                  >
                     <CheckCircle />
                   </IconButton>
-                  <IconButton color="error">
+                  <IconButton 
+                    color="error" 
+                    onClick={() => handleAdoptionRequest(adoption.id, 'rejected')}
+                  >
                     <Cancel />
                   </IconButton>
                 </TableCell>
