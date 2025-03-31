@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Carousel as ResponsiveCarousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import dog1 from "../../../../assets/images/dog1.jpg";
+import cat1 from "../../../../assets/images/cat1.jpg";
+import bird1 from "../../../../assets/images/bird1.jpg";
+import turtle1 from "../../../../assets/images/turtle1.jpg";
 import "./Carousel.css";
 
 const Carousel = () => {
@@ -20,19 +24,19 @@ const Carousel = () => {
 
   const carouselImages = [
     {
-      src: "/src/assets/images/dog1.jpg",
+      src: {dog1},
       alt: "Pet adoption image 1",
     },
     {
-      src: "/src/assets/images/cat1.jpg",
+      src: {cat1},
       alt: "Pet adoption image 2",
     },
     {
-      src: "/src/assets/images/bird1.jpg",
+      src: {bird1},
       alt: "Pet adoption image 3",
     },
     {
-      src: "/src/assets/images/turtle1.jpg",
+      src: {turtle1},
       alt: "Pet adoption image 4",
     },
   ];

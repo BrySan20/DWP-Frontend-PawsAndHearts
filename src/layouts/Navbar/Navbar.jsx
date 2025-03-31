@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../services/authService";
 import Swal from "sweetalert2";
+import logo from "../../assets/images/logo.png";
 import "./Navbar.css";
 
 const Navbar = ({ onSearchFilters }) => {
@@ -97,7 +98,7 @@ const Navbar = ({ onSearchFilters }) => {
     <Box className="navbar-container">
       <Box className="navbar-left">
         <Box className="navbar-logo">
-          <img src="/src/assets/images/logo.png" alt="Logo" className="navbar-logo-image" />
+          <img src={logo} alt="Logo" className="navbar-logo-image" />
         </Box>
         <Box className="navbar-nav-buttons">
           <Button startIcon={<Home />} className="navbar-button" onClick={() => navigate("/dashboard")}>Home</Button>

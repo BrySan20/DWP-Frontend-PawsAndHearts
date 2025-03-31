@@ -3,6 +3,7 @@ import { Box, Button, InputAdornment, TextField, IconButton, Typography } from "
 import { Home, Person, Mail, Search, ExitToApp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../services/authService";
+import logo from "../../assets/images/logo.png";
 import Swal from "sweetalert2";
 import "./Navbar.css";
 
@@ -31,7 +32,7 @@ const Navbar = () => {
       <Box className="navbar-left">
         <Box className="navbar-logo"></Box>
         <Box className="navbar-logo">
-          <img src="/src/assets/images/logo.png" alt="Logo" className="navbar-logo-image" onClick={() => navigate("/admindashboard")} />
+          <img src={logo} alt="Logo" className="navbar-logo-image" onClick={() => navigate("/admindashboard")} />
         </Box>
         <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 3, color: 'black' }}>Welcome Administrator</Typography>
       </Box>
