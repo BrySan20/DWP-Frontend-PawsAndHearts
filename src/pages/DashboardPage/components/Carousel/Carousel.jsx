@@ -24,19 +24,19 @@ const Carousel = () => {
 
   const carouselImages = [
     {
-      src: {dog1},
+      src: dog1,
       alt: "Pet adoption image 1",
     },
     {
-      src: {cat1},
+      src: cat1,
       alt: "Pet adoption image 2",
     },
     {
-      src: {bird1},
+      src: bird1,
       alt: "Pet adoption image 3",
     },
     {
-      src: {turtle1},
+      src: turtle1,
       alt: "Pet adoption image 4",
     },
   ];
