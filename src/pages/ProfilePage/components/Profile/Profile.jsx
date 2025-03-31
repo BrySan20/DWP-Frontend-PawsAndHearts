@@ -139,7 +139,8 @@ const Profile = () => {
           value={editedProfile.email || ''} 
           onChange={handleInputChange}
           fullWidth 
-          sx={{ marginBottom: 2, backgroundColor: '#FFFFFF' }} 
+          sx={{ marginBottom: 2, backgroundColor: '#FFFFFF' }}
+          disabled
         />
         <Typography variant="h6" sx={{ color: 'gray' }}>Change password, only if you need to</Typography>
         <TextField 
