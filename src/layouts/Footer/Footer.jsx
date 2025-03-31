@@ -1,14 +1,13 @@
 import React from "react";
 import { Box, Grid, Typography, Container, useMediaQuery, useTheme } from "@mui/material";
 import { AccessTime, LocationOn, Phone, Info } from "@mui/icons-material";
+import logo from "../../assets/images/logo.png";
 import "./Footer.css";
 
 const Footer = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-  
-  const logoPath = "/src/assets/images/logo.png";
 
   return (
     <Box className="footer-container">
@@ -16,7 +15,7 @@ const Footer = () => {
         <Grid container spacing={{ xs: 2, sm: 3, md: 3 }} className="footer-grid">
           <Grid item xs={12} sm={6} md={2.4} className="footer-column logo-column">
             <Box className="footer-logo-container">
-              <img src={logoPath} alt="Company Logo" className="footer-logo" />
+              <img src={logo} alt="Company Logo" className="footer-logo" />
             </Box>
           </Grid>
 
