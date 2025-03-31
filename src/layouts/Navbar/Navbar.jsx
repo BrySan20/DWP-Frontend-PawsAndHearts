@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   Box, Button, InputAdornment, TextField, IconButton, Popover, List, ListItem,
-  ListItemText, Checkbox, FormControlLabel, Slider, Typography
+  ListItemText, Checkbox, FormControlLabel, Slider, Typography, Alert, Snackbar
 } from "@mui/material";
 import {
   Home, Person, Mail, Search, ExitToApp, FilterList
@@ -14,6 +14,9 @@ import "./Navbar.css";
 
 const Navbar = ({ onSearchFilters }) => {
   const navigate = useNavigate();
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('warning');
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -63,7 +66,9 @@ const Navbar = ({ onSearchFilters }) => {
     });
 
     if (!hasSelectedFilter) {
-      alert('Please select a filter before searching.');
+      setAlertMessage('Please select a filter before searching.');
+      setAlertSeverity('warning');
+      setOpenAlert(true);
       return;
     }
 
@@ -76,6 +81,10 @@ const Navbar = ({ onSearchFilters }) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'filter-popover' : undefined;
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
 
   const handleLogout = () => {
     Swal.fire({
@@ -247,6 +256,11 @@ const Navbar = ({ onSearchFilters }) => {
           </Box>
         </Box>
       </Popover>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity={alertSeverity} variant="outlined">
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
