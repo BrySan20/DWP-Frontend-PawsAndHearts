@@ -256,8 +256,16 @@ const Navbar = ({ onSearchFilters }) => {
           </Box>
         </Box>
       </Popover>
-      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity={alertSeverity} variant="outlined">
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <Alert onClose={handleCloseAlert} severity={alertSeverity}>
           {alertMessage}
         </Alert>
       </Snackbar>
