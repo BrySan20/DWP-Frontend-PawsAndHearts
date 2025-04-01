@@ -13,29 +13,110 @@
   background-color: white;
 }
 
+/* Estilos mejorados para el botón de chat */
 .chat-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #129600;
+  bottom: 40px;
+  right: 40px;
+  background-color: #1a73e8; /* Azul Google más atractivo */
   color: white;
   border-radius: 50%;
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
   cursor: pointer;
-  font-size: 30px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  z-index: 1000;
 }
 
 .chat-button:hover {
-  background-color: #00cc0a;
+  background-color: #1557b0;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.5);
 }
 
+.chat-icon-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-button i {
+  font-size: 28px;
+}
+
+/* Animación de pulso */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 6px 18px rgba(26, 115, 232, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+  }
+}
+
+/* Punto de notificación animado */
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 12px;
+  height: 12px;
+  background-color: #ff4d4f;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0.5; }
+}
+
+/* Tooltip al pasar el mouse */
+.chat-tooltip {
+  position: absolute;
+  right: 80px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.chat-button:hover .chat-tooltip {
+  opacity: 1;
+}
+
+/* Animación de parpadeo para el botón */
+.chat-button.blink {
+  animation: pulse 1s ease;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
   .admindash-content {
     margin-left: 0;
     width: 100%;
+  }
+  
+  .chat-button {
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
   }
 }

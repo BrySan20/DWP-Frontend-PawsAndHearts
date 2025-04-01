@@ -8,8 +8,8 @@ import "./AdminDashboardPage.css";
 const AdminDashboardPage = () => {
     // estado para el tipo de mascota seleccionado
     const [selectedPetType, setSelectedPetType] = useState(null);
-
     const [showChat, setShowChat] = useState(false);
+    const [isBlinking, setIsBlinking] = useState(false);
 
     // Función para manejar el botón de chat
     const toggleChat = () => {
@@ -20,6 +20,15 @@ const AdminDashboardPage = () => {
     const handlePetTypeChange = (petType) => {
         setSelectedPetType(petType);
     };
+
+    useEffect(() => {
+        const blinkInterval = setInterval(() => {
+            setIsBlinking(true);
+            setTimeout(() => setIsBlinking(false), 1000);
+        }, 4000);
+
+        return () => clearInterval(blinkInterval);
+    }, []);
 
     // Effect to handle initial load and stored pet type
     useEffect(() => {
@@ -46,8 +55,11 @@ const AdminDashboardPage = () => {
             </div>
             {/* Botón flotante para abrir el chat */}
             {localStorage.getItem("role") === "admin" && (
-                <div className="chat-button" onClick={toggleChat}>
-                    <span className="chat-icon">💬</span>
+                <div className={`chat-button ${isBlinking ? 'blink' : ''}`} onClick={toggleChat}>
+                    <div className="chat-icon-container">
+                        <span className="chat-icon">💬</span>
+                    </div>
+                    <span className="chat-tooltip">Chat with adopters</span>
                 </div>
             )}
 

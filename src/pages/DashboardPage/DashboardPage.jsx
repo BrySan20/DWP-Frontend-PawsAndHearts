@@ -12,6 +12,7 @@ const DashboardPage = () => {
     const [showFavorites, setShowFavorites] = useState(false);
     const [searchFilters, setSearchFilters] = useState(null);
     const [showChat, setShowChat] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const toggleChat = () => {
         setShowChat(!showChat);
@@ -28,6 +29,16 @@ const DashboardPage = () => {
         setSelectedPetType(null);
         setSearchFilters(null);
     };
+
+    // Animación periódica para llamar la atención
+    useEffect(() => {
+        const animationInterval = setInterval(() => {
+            setIsAnimating(true);
+            setTimeout(() => setIsAnimating(false), 1000);
+        }, 4000); 
+
+        return () => clearInterval(animationInterval);
+    }, []);
 
     useEffect(() => {
         const handlePetSearch = () => {
@@ -87,8 +98,11 @@ const DashboardPage = () => {
                 <Footer />
             </div>
             {localStorage.getItem("role") === "adopter" && (
-                <div className="chat-button" onClick={toggleChat}>
-                    <span className="chat-icon">💬</span>
+                <div className={`chat-button ${isAnimating ? 'bounce' : ''}`} onClick={toggleChat}>
+                    <div className="chat-icon-container">
+                        <span className="chat-icon">💬</span>
+                    </div>
+                    <span className="tooltip-text">Chat with admin</span>
                 </div>
             )}
             {showChat && <ChatWindow onClose={() => setShowChat(false)} />}

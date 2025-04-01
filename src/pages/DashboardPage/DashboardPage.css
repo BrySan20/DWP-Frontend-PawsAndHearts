@@ -13,22 +13,91 @@
   background-color: white;
 }
 
+/* Estilos mejorados para el botón de chat */
 .chat-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #129600;
+  bottom: 40px;
+  right: 40px;
+  background-color: #1a73e8; /* Azul Google más atractivo */
   color: white;
   border-radius: 50%;
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
   cursor: pointer;
-  font-size: 30px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  z-index: 1000;
 }
 
 .chat-button:hover {
-  background-color: #00cc0a;
+  background-color: #1557b0;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.5);
+}
+
+.chat-icon-container {
+  position: relative;
+}
+
+.chat-button i {
+  font-size: 26px;
+}
+
+/* Animación de rebote */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.chat-button.bounce {
+  animation: bounce 1s ease;
+}
+
+/* Badge de notificación */
+.notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+}
+
+/* Tooltip del chat */
+.tooltip-text {
+  position: absolute;
+  right: 75px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  white-space: nowrap;
+}
+
+.chat-button:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Responsivo */
@@ -36,5 +105,16 @@
   .dashboard-content {
     margin-left: 0;
     margin-top: 120px;
+  }
+  
+  .chat-button {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .chat-button i {
+    font-size: 22px;
   }
 }
