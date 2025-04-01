@@ -23,12 +23,12 @@ const ModalQrRegister = ({ open, onClose, qrCodeUrl, onConfirm, isLoading }) => 
       maxWidth="sm"
       fullWidth
     >
-      <DialogTitle>Configurar Autenticación de Dos Factores</DialogTitle>
+      <DialogTitle>Set up MFA authentication</DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, py: 2 }}>
           <Typography variant="body1" align="center">
-            Escanea este código QR con la aplicación Google Authenticator para configurar
-            la autenticación de dos factores.
+            Scan this QR code with the Google Authenticator application to configure
+            the authentication of two factors.
           </Typography>
           
           {qrCodeUrl ? (
@@ -47,7 +47,7 @@ const ModalQrRegister = ({ open, onClose, qrCodeUrl, onConfirm, isLoading }) => 
           )}
           
           <Typography variant="body2" align="center" color="text.secondary">
-            Una vez que hayas escaneado el código, marca la casilla de abajo para continuar con el registro.
+            Once you have scanned the code, mark the box below to continue registration.
           </Typography>
           
           <FormControlLabel
@@ -58,7 +58,7 @@ const ModalQrRegister = ({ open, onClose, qrCodeUrl, onConfirm, isLoading }) => 
                 color="primary"
               />
             }
-            label="He escaneado el código QR"
+            label="I have scanned the QR code"
           />
         </Box>
       </DialogContent>
@@ -68,7 +68,7 @@ const ModalQrRegister = ({ open, onClose, qrCodeUrl, onConfirm, isLoading }) => 
           color="inherit"
           disabled={isLoading}
         >
-          Cancelar
+          Cancel
         </Button>
         <Button 
           onClick={onConfirm}
@@ -76,7 +76,7 @@ const ModalQrRegister = ({ open, onClose, qrCodeUrl, onConfirm, isLoading }) => 
           disabled={!hasScanned || isLoading}
           sx={{ backgroundColor: "#FFB74D", color: "black" }}
         >
-          {isLoading ? <CircularProgress size={24} /> : "Completar Registro"}
+          {isLoading ? <CircularProgress size={24} /> : "Complete registration"}
         </Button>
       </DialogActions>
     </Dialog>
