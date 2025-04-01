@@ -28,7 +28,7 @@ const ModalSteps = ({ open, handleClose }) => {
     // Welcome message
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text('Thank you for your interest in adopting a new furry friend! Please fill out this', 105, 40, { align: 'center' });
+    doc.text('Thank you for your interest in adopting a new friend! Please fill out this', 105, 40, { align: 'center' });
     doc.text('application completely and accurately to help us find the perfect match.', 105, 46, { align: 'center' });
     
     // Applicant Information section
@@ -88,7 +88,7 @@ const ModalSteps = ({ open, handleClose }) => {
     doc.setFont('helvetica', 'italic');
     doc.setTextColor(255, 255, 255);
     doc.text('Paws & Hearts Pet Adoption Center', 105, 280, { align: 'center' });
-    doc.text('123 Pet Street, Animal City • (555) 123-4567 • www.pawsandhearts.org', 105, 286, { align: 'center' });
+    doc.text('123 Pet Street, Animal City • pawsandheartsdwp@gmail.com • https://dwp-frontend-pawsandhearts.onrender.com/', 105, 286, { align: 'center' });
     
     // Page numbers
     doc.setFontSize(10);
@@ -154,7 +154,7 @@ const ModalSteps = ({ open, handleClose }) => {
     doc.text(`Name: ${pet.name}`, 20, 150);
     doc.text(`Age: ${pet.age} years`, 20, 160);
     doc.text(`Breed: ${pet.breed || 'Mixed'}`, 20, 170);
-    doc.text(`Sex: ${pet.sex || 'Unknown'}`, 20, 180);
+    doc.text(`Gender: ${pet.gender || 'Unknown'}`, 20, 180);
     
     // Description header
     doc.setFontSize(14);
@@ -184,7 +184,7 @@ const ModalSteps = ({ open, handleClose }) => {
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(0, 0, 0);
     doc.text('Contact Paws & Hearts Adoption Center:', 20, 240);
-    doc.text('Phone: (555) 123-4567 • Email: adopt@pawsandhearts.org', 20, 250);
+    doc.text('Phone: (419) 122 7996 • Email: pawsandheartsdwp@gmail.com', 20, 250);
     
     // Footer
     doc.setFillColor(230, 126, 34);
@@ -194,7 +194,7 @@ const ModalSteps = ({ open, handleClose }) => {
     doc.setFont('helvetica', 'italic');
     doc.setTextColor(255, 255, 255);
     doc.text('Paws & Hearts Pet Adoption Center', 105, 280, { align: 'center' });
-    doc.text('123 Pet Street, Animal City • www.pawsandhearts.org', 105, 286, { align: 'center' });
+    doc.text('123 Pet Street, Animal City • https://dwp-frontend-pawsandhearts.onrender.com/', 105, 286, { align: 'center' });
     
     doc.save(`${pet.name}_profile.pdf`);
   };
