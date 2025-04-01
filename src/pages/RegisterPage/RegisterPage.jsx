@@ -22,7 +22,7 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    
+
     // Estados para manejar el modal y el código QR
     const [modalOpen, setModalOpen] = useState(false);
     const [qrCodeUrl, setQrCodeUrl] = useState("");
@@ -43,7 +43,7 @@ const RegisterPage = () => {
     // Evento para prevenir espacios en campos de email y password
     const handleInputChange = (e, setter) => {
         const { value, name } = e.target;
-        
+
         // Solo para email y password, eliminamos espacios al inicio
         if (name === 'email' || name === 'password') {
             setter(value.trimStart());
@@ -58,19 +58,19 @@ const RegisterPage = () => {
         if (!validateFields()) {
             return;
         }
-        
+
         try {
             setIsLoading(true);
             setError("");
-            
+
             // Mostrar mensaje de carga
             showLoadingMessage("Generating QR code for authentication...");
-            
+
             // Generar secreto MFA y obtener URL del QR
             const mfaData = await generateMFASecret(email, fullName, password);
-            
+
             closeAlert();
-            
+
             setQrCodeUrl(mfaData.qrCodeUrl);
             setMfaSecret(mfaData.secret); // Guardar el secreto MFA
             setModalOpen(true);
@@ -84,23 +84,23 @@ const RegisterPage = () => {
             setIsLoading(false);
         }
     };
-    
+
     // Función para completar el registro con MFA
     const handleCompleteRegistration = async () => {
         try {
             setIsLoading(true);
-            
+
             showLoadingMessage("Completing registration...");
-            
+
             await completeMFARegistration(email, fullName, password, mfaSecret);
-            
+
             closeAlert();
-            
+
             setModalOpen(false);
             setSuccess("Successfully registered with two-factor authentication!");
-            
+
             showSuccessMessage("¡Successfully registered!", "Successfully registered. You will be redirected to Login page.");
-            
+
             setTimeout(() => navigate("/"), 2000);
         } catch (err) {
             closeAlert();
@@ -113,7 +113,7 @@ const RegisterPage = () => {
             setIsLoading(false);
         }
     };
-    
+
     // Función para cerrar el modal y cancelar el registro
     const handleCloseModal = () => {
         setModalOpen(false);
@@ -126,59 +126,74 @@ const RegisterPage = () => {
             <Box className="register-image" />
             <Box className="register-content">
                 <img src={logo} alt="Logo" className="register-logo" />
-                <Card sx={{ backgroundColor: "#D1FFEA" }} className="register-card">
+                <Card sx={{
+                    backgroundColor: "#D1FFEA",
+                    overflow: "visible",
+                    display: "flex",
+                    flexDirection: "column"
+                }} className="register-card">
                     <CardContent>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: isMobile ? 1.5 : 2 }}>
+                        <Box sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: isMobile ? 1 : 1.5,
+                            width: "100%"
+                        }}>
                             <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontWeight: 'bold' }}>
                                 Register
                             </Typography>
 
-                            <CustomTextField 
-                                label="Full Name" 
+                            <CustomTextField
+                                label="Full Name"
                                 type="text"
                                 name="fullName"
-                                icon={<Person />} 
-                                value={fullName} 
+                                icon={<Person />}
+                                value={fullName}
                                 onChange={(e) => handleInputChange(e, setFullName)}
                             />
-                            <CustomTextField 
-                                label="Email" 
+                            <CustomTextField
+                                label="Email"
                                 type="email"
                                 name="email"
-                                icon={<Email />} 
-                                value={email} 
+                                icon={<Email />}
+                                value={email}
                                 onChange={(e) => handleInputChange(e, setEmail)}
                             />
-                            <CustomTextField 
-                                label="Password" 
+                            <CustomTextField
+                                label="Password"
                                 type="password"
                                 name="password"
-                                icon={<Lock />} 
-                                value={password} 
+                                icon={<Lock />}
+                                value={password}
                                 onChange={(e) => handleInputChange(e, setPassword)}
                             />
 
-                            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: isMobile ? 1 : 2 }}>
-                                <Button 
-                                    variant="contained" 
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                mt: isMobile ? 1 : 2,
+                                width: "100%"
+                            }}>
+                                <Button
+                                    variant="contained"
                                     fullWidth={isMobile}
-                                    sx={{ 
-                                        backgroundColor: "#FFB74D", 
-                                        color: "black", 
-                                        py: isMobile ? 1 : 1.5,
-                                        minHeight: '40px',
+                                    sx={{
+                                        backgroundColor: "#FFB74D",
+                                        color: "black",
+                                        py: isMobile ? 0.5 : 1,
+                                        minHeight: '36px',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        gap: '10px'
-                                    }} 
+                                        gap: '8px'
+                                    }}
                                     onClick={handleRegisterStart}
                                     disabled={isLoading}
                                     startIcon={!isLoading && <VpnKey />}
                                 >
                                     {isLoading ? (
                                         <>
-                                            <ClockLoader size={20} color="#000000" />
+                                            <ClockLoader size={16} color="#000000" />
                                             <span>Processing...</span>
                                         </>
                                     ) : (
@@ -187,7 +202,7 @@ const RegisterPage = () => {
                                 </Button>
                             </Box>
 
-                            <Typography variant="body2" sx={{ mt: isMobile ? 1 : 2 }}>
+                            <Typography variant="body2" sx={{ mt: isMobile ? 1 : 1.5, textAlign: "center", width: "100%" }}>
                                 Already have an account?{" "}
                                 <Link to="/" className="signup-link">Login</Link>
                             </Typography>
@@ -195,9 +210,9 @@ const RegisterPage = () => {
                     </CardContent>
                 </Card>
             </Box>
-            
+
             {/* Modal para QR code */}
-            <ModalQrRegister 
+            <ModalQrRegister
                 open={modalOpen}
                 onClose={handleCloseModal}
                 qrCodeUrl={qrCodeUrl}

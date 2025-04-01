@@ -51,7 +51,7 @@ const LoginPage = () => {
         }
         return true;
     };
-    
+
     // Manejo del inicio de sesión
     const handleLogin = async () => {
         if (!validateFields()) {
@@ -61,7 +61,7 @@ const LoginPage = () => {
         try {
             setIsLoading(true);
             setError("");
-            
+
             // Mostrar mensaje de carga
             showLoadingMessage("Logging in...");
 
@@ -69,7 +69,7 @@ const LoginPage = () => {
             const result = await verifyCredentials(email, password);
 
             closeAlert();
-            
+
             if (result.hasMfa) {
                 // Si tiene MFA, abrir modal para OTP
                 setUserId(result.userId);
@@ -119,7 +119,12 @@ const LoginPage = () => {
             <Box className="login-image" />
             <Box className="login-content">
                 <img src={logo} alt="Logo" className="login-logo" />
-                <Card sx={{ backgroundColor: "#D1FFEA" }} className="login-card">
+                <Card sx={{
+                    backgroundColor: "#D1FFEA",
+                    overflow: "visible",
+                    display: "flex",
+                    flexDirection: "column"
+                }} className="login-card">
                     <CardContent>
                         <Box sx={{ display: "flex", flexDirection: "column", gap: isMobile ? 2 : 3 }}>
                             <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontWeight: 'bold' }}>
@@ -145,9 +150,9 @@ const LoginPage = () => {
                                 <Button
                                     variant="contained"
                                     fullWidth={isMobile}
-                                    sx={{ 
-                                        backgroundColor: "#FFB74D", 
-                                        color: "black", 
+                                    sx={{
+                                        backgroundColor: "#FFB74D",
+                                        color: "black",
                                         py: isMobile ? 1 : 1.5,
                                         minHeight: '40px',
                                         display: 'flex',
@@ -170,7 +175,13 @@ const LoginPage = () => {
                                 </Button>
                             </Box>
 
-                            <Box sx={{ display: "flex", justifyContent: "space-between", mt: isMobile ? 1 : 2 }}>
+                            <Box sx={{
+                                display: "flex",
+                                flexDirection: isMobile ? "column" : "row",
+                                justifyContent: "space-between",
+                                flexWrap: "wrap",
+                                mt: isMobile ? 1 : 2
+                            }} className="password-reset-options">
                                 <Typography variant="body2" sx={{ cursor: 'pointer', color: '#1976d2' }} onClick={() => setResetPasswordModalOpen(true)}>
                                     ¿Forgot your password?
                                 </Typography>
