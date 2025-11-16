@@ -1,0 +1,108 @@
+name: CI/CD Blue-Green
+
+on:
+  push:
+    branches: [ FrontDevelopment-v3 ] # Disparador en tu rama
+
+jobs:
+  build-and-push:
+    name: Construir y Publicar Imagen Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      # --- CORRECCIÓN 1: Convertir nombre a minúsculas ---
+      - name: Set lowercase image name
+        id: image_name
+        run: echo "IMAGE_NAME=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # Usa el nombre en minúsculas
+          tags: ${{ steps.image_name.outputs.IMAGE_NAME }}:latest
+          build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
+  
+  deploy:
+    name: Desplegar en VPS (Blue-Green)
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy and Switch Traffic
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/deployer/paws-and-hearts
+            
+            # --- CORRECCIÓN 2: Usar la ruta /etc/nginx/blue-green ---
+            
+            # 1. Definimos la RUTA CORRECTA donde están los configs
+            CONFIG_PATH="/etc/nginx/blue-green"
+            
+            # 2. Leemos el symlink de la RUTA CORRECTA
+            ACTIVE_ENV_CONFIG=$(readlink $CONFIG_PATH/active_app.conf || echo "")
+            
+            if [[ "$ACTIVE_ENV_CONFIG" == *"/app.blue.conf" ]]; then
+              echo "--- ACTIVO: BLUE (5000) ---"
+              echo "--- DESPLEGANDO EN: GREEN (5001) ---"
+              INACTIVE_COMPOSE_FILE="docker-compose.green.yml"
+              INACTIVE_PORT="5001"
+              # 3. Apuntamos a los archivos en la RUTA CORRECTA
+              INACTIVE_NGINX_CONF="$CONFIG_PATH/app.green.conf"
+              OLD_COMPOSE_FILE="docker-compose.blue.yml"
+            else
+              echo "--- ACTIVO: GREEN (5001) (o NINGUNO) ---"
+              echo "--- DESPLEGANDO EN: BLUE (5000) ---"
+              INACTIVE_COMPOSE_FILE="docker-compose.blue.yml"
+              INACTIVE_PORT="5000"
+              # 4. Apuntamos a los archivos en la RUTA CORRECTA
+              INACTIVE_NGINX_CONF="$CONFIG_PATH/app.blue.conf"
+              OLD_COMPOSE_FILE="docker-compose.green.yml"
+            fi
+            
+            # --- Fin de la corrección de rutas ---
+
+            echo "--- Descargando nueva imagen... ---"
+            docker-compose -f $INACTIVE_COMPOSE_FILE pull
+            echo "--- Iniciando nuevo contenedor... ---"
+            docker-compose -f $INACTIVE_COMPOSE_FILE up -d --remove-orphans
+            
+            echo "--- Esperando 10s... ---"
+            sleep 10
+            echo "--- Probando http://127.0.0.1:$INACTIVE_PORT ---"
+            # Usamos curl con -L para seguir redirecciones si las hubiera
+            curl --fail -L http://127.0.0.1:$INACTIVE_PORT
+            if [ $? -ne 0 ]; then
+              echo "!!! ERROR: Pruebas fallaron. Revirtiendo. !!!"
+              docker-compose -f $INACTIVE_COMPOSE_FILE down
+              exit 1
+            fi
+            
+            echo "--- Pruebas exitosas. Cambiando tráfico... ---"
+            
+            # --- CORRECCIÓN 2: Creamos el symlink en la RUTA CORRECTA ---
+            sudo ln -snf $INACTIVE_NGINX_CONF $CONFIG_PATH/active_app.conf
+            
+            sudo systemctl reload nginx
+            echo "--- TRÁFICO CAMBIADO. Nuevo entorno ACTIVO. ---"
+            
+            echo "--- Desmantelando entorno antiguo... ---"
+            docker-compose -f $OLD_COMPOSE_FILE down --remove-orphans || true
+            echo "--- DESPLIEGUE BLUE-GREEN COMPLETADO ---"
