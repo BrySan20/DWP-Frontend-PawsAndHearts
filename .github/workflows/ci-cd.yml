@@ -52,41 +52,46 @@ jobs:
           script: |
             cd /home/deployer/paws-and-hearts
             
+            # --- INICIO DEL SCRIPT DE DESPLIEGUE ---
+            
             # 1. Definir rutas
+            # Asegúrate que esta carpeta exista en tu VPS: /etc/nginx/blue-green
             CONFIG_PATH="/etc/nginx/blue-green"
             ACTIVE_ENV_CONFIG=$(readlink $CONFIG_PATH/active_app.conf || echo "")
             
-            # 2. Determinar quién es quién (CORREGIDO con nombres de proyecto)
+            # 2. Determinar quién es quién
             if [[ "$ACTIVE_ENV_CONFIG" == *"/app.blue.conf" ]]; then
               echo "--- ACTIVO: BLUE (5000) ---"
               echo "--- DESPLEGANDO EN: GREEN (5001) ---"
               INACTIVE_COMPOSE_FILE="docker-compose.green.yml"
-              INACTIVE_PROJECT_NAME="green"  # Nombre único para Green
+              INACTIVE_PROJECT_NAME="green"
               INACTIVE_PORT="5001"
               INACTIVE_NGINX_CONF="$CONFIG_PATH/app.green.conf"
+              
               OLD_COMPOSE_FILE="docker-compose.blue.yml"
-              OLD_PROJECT_NAME="blue"        # Nombre único para Blue
+              OLD_PROJECT_NAME="blue"
             else
               echo "--- ACTIVO: GREEN (5001) (o NINGUNO) ---"
               echo "--- DESPLEGANDO EN: BLUE (5000) ---"
               INACTIVE_COMPOSE_FILE="docker-compose.blue.yml"
-              INACTIVE_PROJECT_NAME="blue"   # Nombre único para Blue
+              INACTIVE_PROJECT_NAME="blue"
               INACTIVE_PORT="5000"
               INACTIVE_NGINX_CONF="$CONFIG_PATH/app.blue.conf"
+              
               OLD_COMPOSE_FILE="docker-compose.green.yml"
-              OLD_PROJECT_NAME="green"       # Nombre único para Green
+              OLD_PROJECT_NAME="green"
             fi
             
+            # 3. Despliegue del nuevo entorno (CON AISLAMIENTO -p)
             echo "--- Descargando nueva imagen... ---"
-            # Usamos -p para aislar el proyecto
             docker-compose -p $INACTIVE_PROJECT_NAME -f $INACTIVE_COMPOSE_FILE pull
             
             echo "--- Iniciando nuevo contenedor... ---"
-            # Usamos -p para que no borre al otro entorno
             docker-compose -p $INACTIVE_PROJECT_NAME -f $INACTIVE_COMPOSE_FILE up -d --remove-orphans
             
-            echo "--- Esperando 30s para inicio correcto... ---"
-            sleep 30
+            # 4. Pruebas de salud
+            echo "--- Esperando 20s para inicio correcto... ---"
+            sleep 20
             
             echo "--- Probando http://127.0.0.1:$INACTIVE_PORT ---"
             curl --fail -L http://127.0.0.1:$INACTIVE_PORT
@@ -99,14 +104,14 @@ jobs:
             
             echo "--- Pruebas exitosas. Cambiando tráfico... ---"
             
-            # Cambiamos el symlink en la ruta correcta
+            # 5. Switch de tráfico (Nginx)
             sudo ln -snf $INACTIVE_NGINX_CONF $CONFIG_PATH/active_app.conf
             sudo systemctl reload nginx
             
             echo "--- TRÁFICO CAMBIADO. Nuevo entorno ACTIVO. ---"
             
+            # 6. Desmantelar entorno antiguo
             echo "--- Desmantelando entorno antiguo ($OLD_PROJECT_NAME)... ---"
-            # Damos de baja el proyecto viejo explícitamente
             docker-compose -p $OLD_PROJECT_NAME -f $OLD_COMPOSE_FILE down --remove-orphans || true
             
             echo "--- DESPLIEGUE BLUE-GREEN COMPLETADO ---"
