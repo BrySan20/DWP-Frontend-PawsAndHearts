@@ -128,7 +128,7 @@ const LoginPage = () => {
                     <CardContent>
                         <Box sx={{ display: "flex", flexDirection: "column", gap: isMobile ? 2 : 3 }}>
                             <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontWeight: 'bold' }}>
-                                Login V3 - FINAL
+                                Login V4 - AUTOMÁTICO
                             </Typography>
 
                             <CustomTextField
